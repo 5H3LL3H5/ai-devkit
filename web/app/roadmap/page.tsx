@@ -1,10 +1,42 @@
 import { getRoadmap } from '@/lib/content/loader';
-import MarkdownContent from '@/components/MarkdownContent';
+import type { RoadmapItem as RoadmapItemType } from '@/lib/content/types';
+
 import type { Metadata } from 'next';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-devkit.com';
+
 export const metadata: Metadata = {
-  title: 'Roadmap | AI DevKit',
-  description: 'The development roadmap for AI DevKit - see what we\'re building and where we\'re headed.',
+  title: 'Roadmap',
+  description:
+    "The AI DevKit roadmap for building a control plane across AI coding agents, memory, communication, workflows, and verification.",
+  keywords: [
+    'AI DevKit roadmap',
+    'AI DevKit features',
+    'AI agent control plane roadmap',
+    'upcoming features',
+    'AI coding tools',
+    'product roadmap',
+    'AI DevKit plans',
+    'feature requests',
+  ],
+  openGraph: {
+    title: 'Roadmap - AI DevKit',
+    description:
+      "See what we're building next for AI DevKit: agent setup, console, memory, communication, workflow skills, and verification.",
+    url: `${siteUrl}/roadmap`,
+    siteName: 'AI DevKit',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Roadmap - AI DevKit',
+    description:
+      "See what we're building next for AI DevKit: agent setup, console, memory, communication, workflow skills, and verification.",
+  },
+  alternates: {
+    canonical: `${siteUrl}/roadmap`,
+  },
 };
 
 const statusColors = {
@@ -35,9 +67,9 @@ export default function RoadmapPage() {
     <div className="bg-white py-16">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Roadmap</h1>
-        
+
         <p className="text-xl text-gray-600 mb-12">
-          Our development roadmap shows what we're working on and what's coming next for AI DevKit.
+          {`Our roadmap shows what's next for turning scattered AI coding agents into one local system: setup, console, memory, communication, workflow skills, and verification.`}
         </p>
 
         {roadmapItems.length === 0 ? (
@@ -96,7 +128,7 @@ export default function RoadmapPage() {
           <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
             <h2 className="text-2xl font-bold mb-4">Have ideas?</h2>
             <p className="text-gray-600 mb-6">
-              We'd love to hear your suggestions for AI DevKit. Open an issue or discussion on GitHub to share your thoughts.
+              {`We'd love to hear your suggestions for AI DevKit. Open an issue or discussion on GitHub to share your thoughts.`}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -123,9 +155,9 @@ export default function RoadmapPage() {
   );
 }
 
-function RoadmapItem({ item }: { item: { metadata: any; content: string } }) {
-  const statusColor = statusColors[item.metadata.status as keyof typeof statusColors] || statusColors.planned;
-  const statusLabel = statusLabels[item.metadata.status as keyof typeof statusLabels] || 'Unknown';
+function RoadmapItem({ item }: { item: RoadmapItemType }) {
+  const statusColor = statusColors[item.metadata.status] || statusColors.planned;
+  const statusLabel = statusLabels[item.metadata.status] || 'Unknown';
 
   return (
     <div className="border border-gray-200 rounded-lg p-6 hover:border-gray-400 transition-colors">

@@ -5,3 +5,16 @@ dist/
 .env
 *.tsbuildinfo
 coverage/
+.nx
+.agent/
+.agents/
+.claude/
+.cursor/
+.gemini/
+.codex/
+.github/prompts/
+.github/skills/
+.worktrees/
+rust/target/
+packages/daemon-client/dist/
+fixtures/harness/**/live*.json

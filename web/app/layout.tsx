@@ -11,31 +11,36 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-devkit.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "AI DevKit - Structured AI-Assisted Development",
+    default: "AI DevKit - Control Plane for AI Coding Agents",
     template: "%s | AI DevKit",
   },
   description:
-    "A CLI toolkit for AI-assisted software development with phase templates and structured workflows. Improve your development process with requirements, design, planning, and testing documentation.",
+    "AI DevKit gives Claude Code, Codex, Cursor, Gemini CLI, opencode, Pi, and other coding agents one control plane: config, console, local-first memory, communication, and verification.",
   keywords: [
     "AI",
+    "AI DevKit",
+    "ai-devkit",
     "development",
     "CLI",
-    "templates",
-    "documentation",
-    "structured development",
+    "AI agent control plane",
+    "AI agent workflow",
+    "agent orchestration",
+    "verification",
+    "memory",
     "AI-assisted coding",
     "software engineering",
-    "project management",
-    "development workflow",
+    "multi-agent coding",
+    "local AI coding agents",
+    "repeatable engineering workflow",
     "specs driven development",
   ],
   authors: [{ name: "AI DevKit Team" }],
   creator: "AI DevKit",
   publisher: "AI DevKit",
   openGraph: {
-    title: "AI DevKit - Structured AI-Assisted Development",
+    title: "AI DevKit - Control Plane for AI Coding Agents",
     description:
-      "A CLI toolkit for AI-assisted software development with phase templates and structured workflows.",
+      "One config, one console, shared memory, cross-agent communication, and verification for the coding agents you already use.",
     url: siteUrl,
     siteName: "AI DevKit",
     locale: "en_US",
@@ -43,9 +48,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI DevKit - Structured AI-Assisted Development",
+    title: "AI DevKit - Control Plane for AI Coding Agents",
     description:
-      "A CLI toolkit for AI-assisted software development with phase templates and structured workflows.",
+      "One config, one console, shared memory, cross-agent communication, and verification for the coding agents you already use.",
   },
   robots: {
     index: true,
@@ -65,6 +70,42 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: "AI DevKit",
+        alternateName: ["ai-devkit"],
+        url: siteUrl,
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${siteUrl}/#softwareapplication`,
+        name: "AI DevKit",
+        alternateName: ["ai-devkit"],
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "macOS, Linux, Windows",
+        description:
+          "A control plane for AI coding agents with one config, one console, local-first memory, cross-agent communication, workflow skills, and verification gates.",
+        url: siteUrl,
+        downloadUrl: "https://www.npmjs.com/package/ai-devkit",
+        softwareHelp: `${siteUrl}/docs`,
+        sourceOrganization: {
+          "@type": "Organization",
+          name: "AI DevKit",
+          url: siteUrl,
+        },
+        isAccessibleForFree: true,
+        sameAs: [
+          "https://github.com/codeaholicguy/ai-devkit",
+          "https://www.npmjs.com/package/ai-devkit",
+        ],
+      },
+    ],
+  };
+
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
@@ -72,7 +113,7 @@ export default function RootLayout({
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-XYJ8T5JK0Y"
         ></Script>
-        <Script>
+        <Script id="gtag-init">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -91,12 +132,7 @@ export default function RootLayout({
             id="structured-data"
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "website",
-                name: "AI DevKit",
-                url: siteUrl,
-              }),
+              __html: JSON.stringify(structuredData),
             }}
           />
         </GitHubProvider>

@@ -1,52 +1,44 @@
 {
   "name": "ai-devkit",
-  "version": "0.5.0",
-  "description": "A CLI toolkit for AI-assisted software development with phase templates and environment setup",
-  "main": "dist/index.js",
-  "bin": {
-    "ai-devkit": "dist/cli.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "dev": "ts-node src/cli.ts",
-    "lint": "eslint src --ext .ts",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "prepublishOnly": "npm run build"
-  },
+  "version": "0.69.1",
+  "private": true,
+  "description": "Make AI coding agents follow a repeatable engineering workflow with memory, verification, skills, and multi-agent setup",
   "keywords": [
     "ai",
-    "development",
+    "claude",
     "cli",
-    "templates",
     "cursor",
-    "claude"
+    "development",
+    "templates"
   ],
-  "author": "",
   "license": "MIT",
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "commander": "^11.1.0",
-    "fs-extra": "^11.2.0",
-    "gray-matter": "^4.0.3",
-    "inquirer": "^8.2.6",
-    "yaml": "^2.3.4"
+  "author": "",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "nx": "nx",
+    "prepare": "husky",
+    "build": "nx run-many -t build",
+    "lint": "nx run-many -t lint",
+    "fmt": "oxfmt packages",
+    "fmt:check": "oxfmt --check packages",
+    "test": "nx run-many -t test",
+    "test:watch": "nx run-many -t test --watch",
+    "test:coverage": "nx run-many -t test --coverage",
+    "test:e2e": "vitest run --config e2e/vitest.config.ts",
+    "build:codex-plugin": "node scripts/build-codex-plugin.mjs"
   },
   "devDependencies": {
-    "@types/fs-extra": "^11.0.4",
-    "@types/inquirer": "^8.2.10",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20.11.5",
-    "@typescript-eslint/eslint-plugin": "^6.19.1",
-    "@typescript-eslint/parser": "^6.19.1",
-    "eslint": "^8.56.0",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.4.5",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "@nx/js": "^22.4.0",
+    "husky": "^9.1.7",
+    "nx": "^22.4.0",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
+    "vitest": "^4.1.8"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20.20.0"
   }
 }

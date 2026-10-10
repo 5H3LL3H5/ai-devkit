@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -8,7 +10,7 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-bold mb-3">AI DevKit</h3>
             <p className="text-sm text-gray-600 leading-relaxed">
-              A CLI toolkit for AI-assisted software development with phase templates and structured workflows.
+              The control plane for AI coding agents: one config, one console, local-first memory, cross-agent communication, and verification.
             </p>
           </div>
 
@@ -16,9 +18,9 @@ export default function Footer() {
             <h3 className="text-sm font-bold mb-3">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/docs" className="text-gray-600 hover:text-black no-underline">
+                <Link href="/docs" className="text-gray-600 hover:text-black no-underline">
                   Documentation
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="/vision" className="text-gray-600 hover:text-black no-underline">

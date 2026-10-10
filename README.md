@@ -1,298 +1,258 @@
 # AI DevKit
 
-A CLI toolkit for AI-assisted software development with structured phase templates and environment setup for Cursor and Claude Code.
+> English | [中文](./README-zh.md)
+
+**The control plane for AI coding agents.**
+
+![](agent-console-showcase.jpg)
+
+AI DevKit gives Claude Code, Codex CLI, Gemini CLI, opencode, Pi, Cursor, GitHub Copilot, Devin, and other coding agents one local-first operating layer: one config, one console, local memory retrieval, cross-agent communication, and composable engineering skills led by `dev-lifecycle`.
+
+- **One config for every agent** — `.ai-devkit.json` reconciles setup across the coding tools your team uses
+- **One console for running sessions** — `agent console` is a live TUI dashboard for supervising local agents across providers
+- **Cross-agent communication** — `agent send` lets you route prompts, logs, and test output to running agents
+- **Memory retrieval without context bloat** — `@ai-devkit/memory` stores decisions, conventions, and fixes in local SQLite so agents search when needed instead of carrying everything in every prompt
+- **Composable engineering skills** — `dev-lifecycle`, `verify`, `tdd`, review, debugging, security, docs, and simplification skills combine into reliable workflows
+
+The future is many AI coding agents. AI DevKit is the layer that makes them manageable.
+
+Run `npx ai-devkit@latest init` and your project gets:
+
+| What you need | What AI DevKit installs |
+|---------------|-------------------------|
+| One setup source | `.ai-devkit.json` for the agents and workflow you choose |
+| Running-agent visibility | `agent list`, `agent detail`, and `agent console` |
+| Addressable agents | `agent send`, `--stdin`, `--wait`, and agent groups where supported |
+| Retrieval-based memory | Local SQLite memory exposed through MCP and CLI, searched only when useful |
+| Composable senior-engineer workflow | `dev-lifecycle` plus verification, TDD, debugging, review, security, docs, and simplification skills |
 
 [![npm version](https://img.shields.io/npm/v/ai-devkit.svg)](https://www.npmjs.com/package/ai-devkit)
+[![npm downloads](https://img.shields.io/npm/dt/ai-devkit.svg)](https://www.npmjs.com/package/ai-devkit)
+[![GitHub stars](https://img.shields.io/github/stars/Codeaholicguy/ai-devkit.svg?style=social)](https://github.com/Codeaholicguy/ai-devkit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Features
+## Who this is for
 
-- 🎯 **Phase-based Development**: Structured templates for each stage of the software development lifecycle
-- 🤖 **AI Environment Setup**: Automatic configuration for Cursor and Claude Code
-- 📝 **Customizable Templates**: Markdown-based templates with YAML frontmatter
-- 🚀 **Interactive CLI**: User-friendly prompts with flag override support
-- ⚙️ **State Management**: Tracks initialized phases and configuration
+Developers whose AI coding setup has grown from one assistant into a small, messy team of agents:
 
-## Installation
+- multiple terminals with no shared control surface
+- separate `CLAUDE.md` / `.cursor/rules` / `AGENTS.md` / MCP setup per tool
+- no easy way to send context, logs, or follow-up work to a running agent
+- the agent forgetting yesterday's conventions
+- "I've successfully implemented the feature" with a red build
+- the agent diving into code without a plan and producing the wrong thing
+
+Before AI DevKit, your agents are powerful but scattered. After AI DevKit, they have shared setup, a control surface, searchable memory, communication paths, and reusable skills that travel with your repo without bloating every prompt.
+
+| Without AI DevKit | With AI DevKit |
+|-------------------|----------------|
+| You manage agents as isolated terminal tabs | You supervise them from `ai-devkit agent console` |
+| You hand-maintain every agent setup | One config reconciles agent files, skills, and MCP setup |
+| You copy logs and context between sessions | `agent send` routes prompts and stdin to running agents |
+| You repeat project rules in every chat | Agents retrieve relevant memory and docs only when useful |
+| The agent jumps from prompt to code | `dev-lifecycle` guides requirements, design, planning, implementation, testing, and review |
+| "Done" means the agent stopped editing | "Done" requires fresh verification output |
+
+## Start in 30 seconds
 
 ```bash
-# Using npx (no installation needed)
-npx ai-devkit init
-
-# Or install globally
-npm install -g ai-devkit
+npx ai-devkit@latest init
 ```
 
-## Quick Start
+One wizard. Pick your agents, install the control-plane pieces you need, and give every tool the same operating model. It writes project-local files you can review and commit. Re-run it whenever your agent list or workflow changes.
 
-Initialize AI DevKit in your project:
-
-```bash
-# Interactive mode (recommended)
-ai-devkit init
-
-# With flags
-ai-devkit init --environment cursor --all
-
-# Initialize specific phases
-ai-devkit init --phases requirements,design,planning
-```
-
-This will:
-1. Create a `.ai-devkit.json` configuration file
-2. Set up your AI development environment (Cursor/Claude Code)
-3. Generate phase templates in `docs/ai/`
-
-Detailed user guide can be found [here](https://ai-devkit.com/docs/).
-
-## Available Phases
-
-- **Requirements**: Problem understanding, requirements gathering, and success criteria
-- **Design**: System architecture, data models, and technical design (include mermaid diagrams for architecture/data flow)
-- **Planning**: Task breakdown, milestones, and project timeline
-- **Implementation**: Technical implementation notes and code guidelines
-- **Testing**: Testing strategy, test cases, and quality assurance
-- **Deployment**: Deployment process, infrastructure, and release procedures
-- **Monitoring**: Monitoring strategy, metrics, alerts, and observability
-
-## Commands
-
-### `ai-devkit init`
-
-Initialize AI DevKit in your project.
-
-**Options:**
-- `-e, --environment <env>`: Specify environment (cursor|claude|both)
-- `-a, --all`: Initialize all phases at once
-- `-p, --phases <phases>`: Comma-separated list of specific phases
-
-**Examples:**
-```bash
-# Interactive mode
-ai-devkit init
-
-# Initialize for Cursor with all phases
-ai-devkit init --environment cursor --all
-
-# Initialize specific phases
-ai-devkit init --phases requirements,design,implementation
-```
-
-### `ai-devkit phase [name]`
-
-Add or update a specific phase template.
-
-**Examples:**
-```bash
-# Interactive selection
-ai-devkit phase
-
-# Add specific phase
-ai-devkit phase requirements
-ai-devkit phase testing
-```
-
-## Generated Structure
-
-After initialization, your project will have:
+Here's what lands in your repo:
 
 ```
 your-project/
-├── .ai-devkit.json           # Configuration and state
-├── docs/
-│   └── ai/
-│       ├── requirements/
-│       │   └── README.md
-│       ├── design/
-│       │   └── README.md
-│       ├── planning/
-│       │   └── README.md
-│       ├── implementation/
-│       │   └── README.md
-│       ├── testing/
-│       │   └── README.md
-│       ├── deployment/
-│       │   └── README.md
-│       └── monitoring/
-│           └── README.md
-└── [Environment-specific files]
+├── .ai-devkit.json              # single source of truth (re-run init anytime)
+├── .claude/                     # or .cursor/, .codex/, etc. per agent you picked
+│   ├── skills/                  # dev-lifecycle, verify, memory, tdd, ...
+│   └── settings.json            # MCP servers wired up (incl. @ai-devkit/memory)
+└── docs/ai/
+    ├── requirements/            # phase 1 — what to build, why
+    ├── design/                  # phase 2 — how it'll be built
+    ├── planning/                # phase 3 — task-by-task plan
+    ├── implementation/          # phase 4 — execution notes
+    └── testing/                 # phase 5 — coverage strategy
 ```
 
-Supported Tools & Agents:
-| Agent                                                     | Support | Notes                                             |
-|-----------------------------------------------------------|---------|---------------------------------------------------|
-| [Claude Code](https://www.anthropic.com/claude-code)      | ✅ |                                                        |
-| [GitHub Copilot](https://code.visualstudio.com/)          | ✅ | VSCode only                                                |
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | ✅ |                                                 |
-| [Cursor](https://cursor.sh/)                              | ✅ |                                                        |
-| [opencode](https://opencode.ai/)                          | ✅ |                                                |
-| [Antigravity](https://antigravity.google/)                | ✅ |                                                |
-| [Windsurf](https://windsurf.com/)                         | 🚧 | Testing                                                |
-| [Kilo Code](https://github.com/Kilo-Org/kilocode)         | 🚧 | Testing                                                |
-| [Roo Code](https://roocode.com/)                          | 🚧 | Testing                                                |
-| [Codex CLI](https://github.com/openai/codex)              | 🚧 | Testing                                                |
-| [Amp](https://ampcode.com/)                               | 🚧 | Testing                                                |
+## Operate agents like infrastructure
 
-Templates are designed to provide structure while remaining concise and AI-friendly.
-
-## Environment Setup
-
-### Cursor
-
-Generated files:
-- `.cursor/rules/`: Project-specific rules as Markdown files (per [Cursor documentation](https://cursor.com/docs/context/rules))
-- `.cursor/commands/`: Custom slash commands as Markdown files (per [Cursor documentation](https://cursor.com/docs/agent/chat/commands))
-
-Available slash commands:
-- `/new-requirement`: Complete workflow for adding a new feature from requirements to PR
-- `/code-review`: Structured local code review against design docs before pushing changes
-- `/execute-plan`: Walk a feature plan task-by-task with interactive prompts
-- `/writing-test`: Write unit/integration tests targeting 100% coverage
-- `/update-planning`: Update planning and task breakdown
-- `/check-implementation`: Compare implementation with design
-- `/review-design`: Review system design and architecture
-- `/review-requirements`: Review and summarize requirements
-
-Each command is stored as a plain Markdown file in `.cursor/commands/` and will automatically appear when you type `/` in Cursor's chat input.
-
-### Claude Code
-
-Generated files:
-- `.claude/CLAUDE.md`: Workspace configuration and guidelines
-- `.claude/commands/`: Custom commands as Markdown files
-
-Available commands:
-- `new-requirement` - Complete workflow for adding a new feature from requirements to PR
-- `code-review` - Structured local code review against design docs before pushing changes
-- `execute-plan` - Walk a feature plan task-by-task with interactive prompts
-- `writing-test` - Write unit/integration tests targeting 100% coverage
-- `update-planning` - Update planning and task breakdown
-- `check-implementation` - Compare implementation with design
-- `review-design` - Review system design and architecture
-- `review-requirements` - Review and summarize requirements
-- `capture-knowledge` - Analyze and explain code with recursive dependency analysis and Mermaid diagrams
-
-Commands can be referenced in Claude Code chats to guide AI assistance through your development phases.
-
-## Workflow Examples
-
-### Initial Project Setup
-
-1. **Initialize your project:**
-   ```bash
-   ai-devkit init
-   ```
-
-2. **Start with requirements:**
-   - Fill out `docs/ai/requirements/README.md`
-   - Use your AI assistant to help clarify and document requirements
-
-3. **Design your system:**
-   - Complete `docs/ai/design/README.md` and feature-specific files
-   - Include mermaid diagrams for architecture, component interactions, and data flow
-   - Reference requirements when making design decisions
-
-4. **Plan your work:**
-   - Break down tasks in `docs/ai/planning/README.md`
-   - Estimate and prioritize
-
-5. **Implement with guidance:**
-   - Follow patterns in `docs/ai/implementation/README.md`
-   - Keep implementation notes updated
-
-6. **Test thoroughly:**
-   - Use `docs/ai/testing/README.md` as your testing guide
-   - Document test cases and results
-
-7. **Deploy confidently:**
-   - Follow deployment procedures in `docs/ai/deployment/README.md`
-
-8. **Monitor and iterate:**
-   - Set up monitoring per `docs/ai/monitoring/README.md`
-
-## Use Cases
-
-- **New Projects**: Scaffold complete development documentation
-- **Existing Projects**: Add structured documentation gradually
-- **Team Collaboration**: Share common development practices
-- **AI Pair Programming**: Provide context for AI assistants
-- **Knowledge Management**: Document decisions and patterns
-
-## Best Practices
-
-1. **Keep templates updated**: As your project evolves, update phase documentation
-2. **Reference across phases**: Link requirements to design, design to implementation
-3. **Use with AI assistants**: Templates are designed to work well with AI code assistants
-4. **Customize for your needs**: Templates are starting points, not rigid requirements
-5. **Track decisions**: Document architectural decisions and their rationale
-
-## Configuration File
-
-The `.ai-devkit.json` file tracks your setup:
-
-```json
-{
-  "version": "0.2.0",
-  "environment": "cursor",
-  "initializedPhases": ["requirements", "design", "planning"],
-  "createdAt": "2025-10-14T...",
-  "updatedAt": "2025-10-14T..."
-}
-```
-
-## Development
-
-To work on ai-devkit itself:
+AI DevKit ships a agent control plane for everyday multi-agent work:
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd ai-devkit
+# List running sessions across providers
+ai-devkit agent list
 
-# Install dependencies
-npm install
+# Open the live terminal UI
+ai-devkit agent console
 
-# Run in development mode
-npm run dev init
+# Send a prompt to a running session and wait for the response
+ai-devkit agent send "run the tests and report back" --id <agent-name> --wait
 
-# Build
-npm run build
+# Pipe multi-line output into a running session
+npm test 2>&1 | ai-devkit agent send --id <agent-name> --stdin
 
-# Test locally
-npm link
-ai-devkit init
+# Send a prompt to a saved group of agents
+ai-devkit agent send "review this branch for release risk" --group reviewers
+
+# Pipe a session through Telegram — operate your agent from your phone
+ai-devkit channel start telegram --agent <agent-name> --daemon
 ```
 
-> **Note:** `ai-devkit init` now ensures the current directory is a git repository. If git is available and the repo isn't initialized, it will run `git init` automatically.
+Use this when work spans long-running agents, multiple providers, scheduled checks, review loops, or remote control from another channel.
 
-## Contributing
+## Add memory without bloating context
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+AI DevKit memory is local SQLite knowledge for project decisions, coding conventions, and reusable fixes. Agents retrieve it when a task needs context instead of carrying every fact in every prompt.
+
+```bash
+# Store a reusable project convention
+ai-devkit memory store \
+  --title "API handlers return DTOs" \
+  --content "REST handlers should return response DTOs instead of domain entities." \
+  --tags "api,backend" \
+  --scope "repo:codeaholicguy/ai-devkit"
+
+# Search before related work
+ai-devkit memory search --query "API response convention"
+```
+
+## Compose engineering workflows with skills
+
+The control plane is useful on its own. For larger or riskier changes, AI DevKit also installs composable skills that make agents behave more like an engineering team.
+
+`dev-lifecycle` is the anchor skill. It guides the agent through requirements, design, planning, implementation, testing, and review. Other skills plug into that flow:
+
+- `memory` retrieves relevant project knowledge without stuffing all context into the session
+- `verify` blocks completion claims without fresh test or build evidence
+- `tdd` pushes test-first implementation when behavior changes
+- `structured-debug` keeps debugging reproducible instead of guess-and-patch
+- `security-review`, `document-code`, and `simplify-implementation` add focused review passes when the task needs them
+
+### Get the full engineering workflow stack
+
+Save [`templates/senior-engineer.yaml`](./templates/senior-engineer.yaml) locally and run:
+
+```bash
+ai-devkit init --template ./senior-engineer.yaml
+```
+
+Bundles the built-in skills with curated additions from Anthropic, Vercel, and others: TDD, frontend design, webapp testing, doc co-authoring, React best practices, security review, and more.
+
+## A feature, end-to-end
+
+```
+You:    Use the dev-lifecycle skill to start requirements for OAuth login with Google
+
+Agent:  Searches memory for prior auth conventions. Asks clarifying
+        questions about scope, users, success criteria. Drafts
+        docs/ai/{requirements,design,planning}/feature-oauth-login.md
+        in a feature worktree. Stops before coding.
+
+You:    Ask for a design review of feature-oauth-login
+
+Agent:  Audits the design doc against the requirements. Flags gaps,
+        proposes fixes — before any code gets written.
+
+You:    Ask it to execute the implementation plan
+
+Agent:  Works the planning doc task-by-task. Updates progress after
+        each task. The `verify` skill blocks a task from being
+        marked done without fresh test/build output.
+
+You:    Ask for a code review
+
+Agent:  Audits the diff against the design doc — scope creep,
+        missing tests, edge cases the requirements named —
+        before you push.
+```
+
+## What changes in agent behavior
+
+The flow above is powered by nine built-in skills, each addressing a failure mode developers see in real AI coding sessions:
+
+| Failure mode | AI DevKit behavior |
+|--------------|--------------------|
+| Agent starts coding too early | `dev-lifecycle` forces requirements, design, planning, implementation, tests, and review |
+| Agent says "done" without proof | `verify` blocks completion claims without fresh test/build evidence |
+| Agent commits unrelated local changes | `dev-commit` checks diffs, stages explicit paths, validates, and reports the SHA/status |
+| Agent forgets project decisions | `memory` gives it a local, searchable knowledge base across sessions and projects |
+| New behavior ships without tests | `tdd` pushes test-first implementation |
+| Debugging becomes guess-and-patch | `structured-debug` makes it reproduce, hypothesize, fix, and verify |
+| Existing code is opaque | `document-code` maps entry points, dependencies, and behavior |
+| Implementation gets bloated | `simplify-implementation` reduces complexity before code ships |
+| Documentation is hard to follow | `technical-writer` audits docs for novice-user clarity |
+
+Need more? `ai-devkit skill add <registry> <skill>` pulls from 30+ publishers — Anthropic, Vercel, Supabase, Microsoft, Google.
+
+## Works across coding agents
+
+One `.ai-devkit.json` configures all of them. Add a new agent to your team without rewriting your rules.
+
+| Agent | Setup | Remote control |
+|-------|-------|----------------|
+| [Claude Code](https://www.anthropic.com/claude-code) | yes | yes |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | yes | yes |
+| [Codex CLI](https://github.com/openai/codex) | yes | yes |
+| [Grok Build CLI](https://x.ai/cli) | yes | yes |
+| [Junie](https://www.jetbrains.com/junie/) | yes | — |
+| [Cline](https://cline.bot/) | yes | — |
+| [Devin](https://devin.ai/) | yes | — |
+| [opencode](https://opencode.ai/) | yes | testing |
+| [Pi](https://pi.dev) | yes | yes |
+| [Kiro CLI](https://kiro.dev/cli/) | yes | yes |
+| [Cursor](https://cursor.sh/) | yes | — |
+| [GitHub Copilot](https://code.visualstudio.com/) | yes | — |
+| [Antigravity](https://antigravity.google/) | yes | yes |
+| [Amp](https://ampcode.com/) | yes | — |
+| [Kilo Code](https://github.com/Kilo-Org/kilocode) | yes | — |
+| [Roo Code](https://roocode.com/) | testing | — |
+
+**Setup** — `ai-devkit init` writes the agent's config (rules, MCP servers, and skills) so it joins the same operating layer.
+**Remote control** — drive running sessions from `ai-devkit agent send` and route them through external channels.
+
+## How is this different from `CLAUDE.md`, `.cursor/rules`, or `AGENTS.md`?
+
+Those files are static instructions the agent re-reads. AI DevKit gives agents a **operating layer**: generated setup, a control console, cross-agent messaging, local searchable memory, phase docs, skills loaded on demand, and verification gates. The rules still matter, but AI DevKit makes them operational across tools.
+
+| Static rules files | AI DevKit |
+|--------------------|-----------|
+| Tell one agent what you prefer | Reconciles setup across supported agents |
+| Do not show what is running | Lists, inspects, and controls live sessions |
+| Cannot send work between sessions | Routes prompts, stdin, and channel messages to agents |
+| Depend on the agent remembering every rule | Stores and searches reusable project knowledge |
+| Cannot prove a task is complete | Requires fresh command output before completion claims |
+
+## What this isn't
+
+- **Not a smarter LLM.** Bad models stay bad — this raises the floor on process, not on raw capability.
+- **Not a replacement for Claude Code, Codex, Cursor, Gemini CLI, or opencode.** AI DevKit configures, supervises, and coordinates the agents you already use.
+- **Not a magic "write the feature for me" button.** You still review the requirements doc, accept the design, and read the diff. The workflow makes that review possible because you have artifacts to point at instead of only chat scrollback.
+- **Not a hosted service.** MIT-licensed, runs locally, no telemetry. Memory is a SQLite file on your disk. The agent control plane talks to the agent SDKs you already use.
+
+## Documentation & community
+
+- Full guides, workflow patterns, skill authoring → **[ai-devkit.com/docs](https://ai-devkit.com/docs/)**
+- Release notes → **[CHANGELOG.md](./CHANGELOG.md)**
+- Contributing → **[CONTRIBUTING.md](./CONTRIBUTING.md)**
+
+```bash
+git clone https://github.com/Codeaholicguy/ai-devkit.git
+cd ai-devkit && npm install && npm run build
+```
 
 ## License
 
 MIT
 
----
+## Star History
 
-**Happy building with AI! 🚀**
-
-## Quick Reference
-
-| Task | Command |
-|------|---------|
-| Initialize everything | `npx ai-devkit init --all` |
-| Initialize for Cursor | `npx ai-devkit init --environment cursor` |
-| Add specific phases | `npx ai-devkit init --phases requirements,design` |
-| Add one phase later | `npx ai-devkit phase testing` |
-| Guided feature workflow | `/new-requirement` (Cursor & Claude) |
-| Execute feature plan | `/execute-plan` (Cursor & Claude) |
-| Generate tests | `/writing-test` (Cursor & Claude) |
-| Local code review | `/code-review` (Cursor & Claude) |
-| Help | `npx ai-devkit --help` |
-
-| Quick links | Description |
-|-------------|-------------|
-| [CHANGELOG.md](CHANGELOG.md) | Recent changes and release notes |
-| [templates/](templates/) | Phase and environment templates |
-
+<a href="https://www.star-history.com/?repos=codeaholicguy%2Fai-devkit&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=codeaholicguy/ai-devkit&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=codeaholicguy/ai-devkit&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=codeaholicguy/ai-devkit&type=date&legend=top-left" />
+ </picture>
+</a>

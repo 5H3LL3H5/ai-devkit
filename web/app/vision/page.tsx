@@ -1,12 +1,43 @@
+import Link from "next/link";
 import { getPage } from "@/lib/content/loader";
 import MarkdownContent from "@/components/MarkdownContent";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-devkit.com";
+
 export const metadata: Metadata = {
-  title: "Vision | AI DevKit",
+  title: "Vision",
   description:
-    "The vision and purpose behind AI DevKit - bridging AI-assisted development with structured software engineering practices.",
+    "The vision behind AI DevKit: turn scattered AI coding agents into one local system for setup, memory, communication, workflow skills, and verification.",
+  keywords: [
+    "AI DevKit vision",
+    "multi-agent coding",
+    "repeatable engineering workflow",
+    "development best practices",
+    "AI coding philosophy",
+    "software development methodology",
+    "code quality",
+    "team collaboration",
+  ],
+  openGraph: {
+    title: "Vision - AI DevKit",
+    description:
+      "Discover the vision behind AI DevKit: one control plane for AI coding agents.",
+    url: `${siteUrl}/vision`,
+    siteName: "AI DevKit",
+    locale: "en_US",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vision - AI DevKit",
+    description:
+      "Discover the vision behind AI DevKit: one control plane for AI coding agents.",
+  },
+  alternates: {
+    canonical: `${siteUrl}/vision`,
+  },
 };
 
 export default function VisionPage() {
@@ -25,16 +56,17 @@ export default function VisionPage() {
         <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
           <h2 className="text-2xl font-bold mb-4">Ready to get started?</h2>
           <p className="text-gray-600 mb-6">
-            See how AI DevKit can improve your development workflow with
-            structured practices and AI assistance.
+            See how AI DevKit adds shared setup, a local console, memory,
+            communication, workflow skills, and verification to the AI coding
+            tools you already use.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <a
+            <Link
               href="/docs"
               className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors no-underline text-center"
             >
               Get Started
-            </a>
+            </Link>
             <a
               href="/roadmap"
               className="px-6 py-3 border border-black rounded-lg font-medium hover:bg-gray-50 transition-colors no-underline text-center"

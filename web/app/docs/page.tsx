@@ -1,6 +1,48 @@
 import Link from 'next/link';
 import { getAllDocPages } from '@/lib/content/loader';
 
+import type { Metadata } from 'next';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-devkit.com';
+
+export const metadata: Metadata = {
+  title: 'Documentation',
+  description:
+    'Set up AI DevKit as a control plane for coding agents: one config, one console, local-first memory, communication, workflow skills, and verification.',
+  keywords: [
+    'AI DevKit documentation',
+    'AI coding assistant setup',
+    'AI agent control plane',
+    'agent skills',
+    'skills',
+    'AI development tools',
+    'Claude Code',
+    'Cursor IDE',
+    'Codex',
+    'Antigravity',
+    'Open Code',
+    'AI pair programming',
+  ],
+  openGraph: {
+    title: 'AI DevKit Documentation',
+    description:
+      'Set up one control plane for AI coding agents.',
+    url: `${siteUrl}/docs`,
+    siteName: 'AI DevKit',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI DevKit Documentation',
+    description:
+      'Set up one control plane for AI coding agents.',
+  },
+  alternates: {
+    canonical: `${siteUrl}/docs`,
+  },
+};
+
 export default function DocsPage() {
   const docs = getAllDocPages();
 
@@ -8,9 +50,9 @@ export default function DocsPage() {
     <div className="bg-white py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-bold mb-8">Documentation</h1>
-        
+
         <p className="text-xl text-gray-600 mb-12">
-          Everything you need to know about using AI DevKit for AI-assisted structured software development.
+          Set up the control plane that gives your coding agents one config, one console, local-first memory, communication, workflow skills, and verification.
         </p>
 
         {docs.length === 0 ? (
@@ -41,7 +83,7 @@ export default function DocsPage() {
         <div className="mt-12 pt-12 border-t border-gray-200">
           <h2 className="text-2xl font-bold mb-4">Need Help?</h2>
           <p className="text-gray-600 mb-4">
-            Can't find what you're looking for? Check out our GitHub repository or open an issue.
+            {`Can't find what you're looking for? Check out our GitHub repository or open an issue.`}
           </p>
           <div className="flex gap-4">
             <a
@@ -66,4 +108,3 @@ export default function DocsPage() {
     </div>
   );
 }
-

@@ -2,7 +2,11 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getDocPage, getAllDocPages } from "@/lib/content/loader";
 import MarkdownContent from "@/components/MarkdownContent";
+import CopyToMarkdownButton from "@/components/CopyToMarkdownButton";
+import GettingStartedGuides from "@/components/GettingStartedGuides";
 import type { Metadata } from "next";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ai-devkit.com";
 
 interface DocPageProps {
   params: Promise<{ slug: string }>;
@@ -24,12 +28,43 @@ export async function generateMetadata({
   if (!doc) {
     return {
       title: "Page Not Found",
+      description: "The requested documentation page could not be found.",
     };
   }
 
+  const pageUrl = `${siteUrl}/docs/${slug}`;
+  const title = doc.metadata.title;
+  const description =
+    doc.metadata.description ||
+    `Learn about ${doc.metadata.title} in the AI DevKit documentation.`;
+
   return {
-    title: `${doc.metadata.title} | AI DevKit Documentation`,
-    description: doc.metadata.description,
+    title,
+    description,
+    keywords: [
+      doc.metadata.title,
+      "AI DevKit",
+      "documentation",
+      "AI coding agents",
+      "AI agent control plane",
+      "coding assistant",
+    ],
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: "AI DevKit",
+      locale: "en_US",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 
@@ -58,9 +93,15 @@ export default async function DocPage({ params }: DocPageProps) {
           <span className="text-black">{doc.metadata.title}</span>
         </nav>
 
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          {doc.metadata.title}
-        </h1>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold">
+            {doc.metadata.title}
+          </h1>
+          <CopyToMarkdownButton
+            content={doc.content}
+            title={doc.metadata.title}
+          />
+        </div>
 
         {doc.metadata.description && (
           <p className="text-xl text-gray-600 mb-12">
@@ -69,6 +110,7 @@ export default async function DocPage({ params }: DocPageProps) {
         )}
 
         <MarkdownContent content={doc.content} />
+        <GettingStartedGuides />
       </article>
       <nav className="mt-16 pt-8 border-t border-gray-200 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

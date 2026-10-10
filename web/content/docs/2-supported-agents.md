@@ -1,133 +1,200 @@
 ---
 title: Supported AI Agents & Environments
-description: Environments supported by AI DevKit
+description: Compare supported AI coding agents and environments for AI DevKit setup, skills, MCP configuration, and local control-plane workflows.
 order: 2
 ---
 
-## Supported Environments
+AI DevKit works with a variety of AI coding agents and coding environments. This page lists supported environments and explains what AI DevKit installs for each one, so teams can keep setup, skills, memory, and verification consistent across tools.
+
+Before selecting project environments here, complete the once-per-machine setup in [Getting Started](/docs/1-getting-started).
+
+Support levels here describe setup and environment integration. Agent session discovery, `agent console`, and `agent send` depend on whether the local agent exposes a detectable running session. See [Agent Management](/docs/8-agent-management) and [Agent Console](/docs/13-agent-console) for the operational control-plane commands.
+
+## Status Legend
+
+| Status | Meaning |
+|--------|---------|
+| **Ready** | Stable setup support for generated files, skills, and documented configuration. |
+| **Experimental** | Works but may have issues. We're actively testing and improving support. |
+
+## Ready Environments
+
+These environments have stable setup integrations.
 
 ### [Cursor](https://cursor.com/)
-**Status:** Ready
 **What AI DevKit provides:**
-- `AGENTS.md` - Agent instructions for [Cursor](https://cursor.com/docs/context/rules)
-- `.cursor/commands/` - Custom [slash commands](https://cursor.com/docs/context/commands) for structured development workflows
-- `.cursor/rules/` - [Editor rules](https://cursor.com/docs/context/rules) for consistent coding standards
+- `AGENTS.md` — Agent instructions for [Cursor](https://cursor.com/docs/context/rules)
+- `.cursor/skills/` — Project-level skills
+- `~/.cursor/skills/` — Global skills
+- `.cursor/rules/` — [Editor rules](https://cursor.com/docs/context/rules) for consistent coding standards
 
 ### [Claude Code](https://www.claude.com/product/claude-code)
-**Status:** Ready
 **What AI DevKit provides:**
-- `AGENTS.md` - [Claude workspace configuration](https://www.anthropic.com/engineering/claude-code-best-practices) and context
-- `.claude/commands/` - Custom [slash commands](https://code.claude.com/docs/en/slash-commands)
+- `CLAUDE.md` — Claude Code workspace instructions and context
+- `.claude/skills/` — Project-level skills
+- `~/.claude/skills/` — Global skills
+- `.mcp.json` — Project-level MCP server configuration
 
 ### [GitHub Copilot](https://github.com/features/copilot)
-**Status:** Ready
 **What AI DevKit provides:**
-- `.github/prompts/` - GitHub Copilot [custom prompts with VSCode](https://code.visualstudio.com/docs/copilot/customization/prompt-files)
+- `.github/prompts/` — GitHub Copilot [custom prompts with VSCode](https://code.visualstudio.com/docs/copilot/customization/prompt-files)
+- `.github/skills/` — Project-level skills
+- `.mcp.json` — Project-level MCP server configuration
+- `~/.copilot/skills/` — Global skills
 
-### [Google Gemini](https://geminicli.com/)
-**Status:** Ready
+### [Google Gemini CLI](https://geminicli.com/)
 **What AI DevKit provides:**
-- `GEMINI.md` - [Context file](https://geminicli.com/docs/cli/gemini-md/) for providing instructional context to the Gemini model
-- `.gemini/commands/` - Gemini [custom commands](https://geminicli.com/docs/cli/commands/)
+- `GEMINI.md` — [Context file](https://geminicli.com/docs/cli/gemini-md/) for providing instructional context to the Gemini model
+- `.gemini/skills/` — Project-level skills
+- `~/.gemini/skills/` — Global skills
 
-### [OpenAI Codex](https://chatgpt.com/en-SE/features/codex)
-**Status:** Testing
+### [Codex](https://chatgpt.com/en-SE/features/codex)
 **What AI DevKit provides:**
-- `AGENTS.md` - Codex-specific configuration and context
-- `.codex/commands/` - Commands tailored for Codex's code-focused capabilities
+- `AGENTS.md` — Codex-specific configuration and context
+- `.agents/skills/` — Project-level skills
+- `~/.codex/skills/` — Global skills
+- `.codex/config.toml` — Project-level MCP server configuration
 
-### [Windsurf](https://windsurf.com/)
-**Status:** Testing
+### [Grok Build CLI](https://x.ai/cli)
 **What AI DevKit provides:**
-- `AGENTS.md` - Windsurf environment configuration
-- `.windsurf/commands/` - Commands optimized for Windsurf's interface
+- `.grok/skills/` — Project-level skills
+- `~/.grok/skills/` — Global skills
 
-### [KiloCode](https://kilocode.ai/)
-**Status:** Testing
+### [opencode](https://opencode.ai/)
 **What AI DevKit provides:**
-- `AGENTS.md` - KiloCode configuration for large project handling
-- `.kilocode/commands/` - Commands designed for large-scale development
-
-### [AMP](https://ampcode.com/)
-**Status:** Testing
-**What AI DevKit provides:**
-- `AGENTS.md` - AMP configuration for accelerated workflows
-- `.agents/commands/` - Commands optimized for rapid development cycles
-
-### [OpenCode](https://opencode.ai/)
-**Status:** Ready
-**What AI DevKit provides:**
-- `AGENTS.md` - OpenCode [custom instructions](https://opencode.ai/docs/rules/)
-- `.opencode/commands/` - OpenCode [custom commands](https://opencode.ai/docs/commands/)
-
-### [Roo Code](https://roocode.com/)
-**Status:** Testing
-**What AI DevKit provides:**
-- `AGENTS.md` - Roo Code configuration and context
-- `.roo/commands/` - Commands optimized for Roo's advanced features
+- `AGENTS.md` — opencode [custom instructions](https://opencode.ai/docs/rules/)
+- `.opencode/skills/` — Project-level skills
+- `~/.config/opencode/skills/` — Global skills
+- `opencode.json` — Project-level MCP server configuration under the `mcp` key
 
 ### [Antigravity](https://antigravity.google/)
-**Status:** Ready
 **What AI DevKit provides:**
-- `.agent/workflows/` - Workflow for [Antigravity](https://codelabs.developers.google.com/getting-started-google-antigravity#8)'s advanced features
+- `.agent/skills/` — Project-level skills
+- `~/.gemini/antigravity/skills/` — Global skills
+
+### [Antigravity CLI](https://antigravity.google/)
+**What AI DevKit provides:**
+- `.agents/skills/` — Project-level skills
+- `~/.gemini/config/skills/` — Global skills
+
+### [Junie](https://www.jetbrains.com/junie/)
+**What AI DevKit provides:**
+- `AGENTS.md` — Junie project instructions and context
+- `.junie/skills/` — Project-level skills
+- `.junie/mcp/mcp.json` — Project-level MCP server configuration
+- `~/.junie/skills/` — Global skills
+
+### [Cline](https://cline.bot/)
+**What AI DevKit provides:**
+- `AGENTS.md` — Cline project instructions and context
+- `.cline/skills/` — Project-level skills
+- `~/.cline/skills/` — Global skills
+
+### [Devin](https://devin.ai/)
+**What AI DevKit provides:**
+- `AGENTS.md` — Devin project instructions and context
+- `.devin/skills/` — Project-level skills
+- `.devin/config.json` — Project-level MCP server configuration; AI DevKit updates only `mcpServers` and preserves other Devin config
+- `~/.config/devin/skills/` — Global skills
+
+### [Pi](https://pi.dev/)
+**What AI DevKit provides:**
+- `.pi/skills/` — Project-level skills
+- `~/.pi/agent/skills/` — Global skills
+
+## Experimental Environments
+
+These environments are under active development. They work, but you may encounter issues.
+
+### [KiloCode](https://kilocode.ai/)
+
+**What AI DevKit provides:**
+- `AGENTS.md` — KiloCode configuration for large project handling
+- `.kilo/skills/` — Project-level skills
+- `~/.kilo/skills/` — Global skills
+- `.kilo/kilo.jsonc` — Project-level MCP server configuration under the `mcp` key
+
+### [AMP](https://ampcode.com/)
+
+**What AI DevKit provides:**
+- `AGENTS.md` — AMP configuration for accelerated workflows
+- `.agents/skills/` — Project-level skills
+- `~/.config/agents/skills/` — Global skills
+
+### [Roo Code](https://roocode.com/)
+
+**What AI DevKit provides:**
+- `AGENTS.md` — Roo Code configuration and context
+- `.roo/skills/` — Project-level skills
+- `~/.roo/skills/` — Global skills
+- `.roo/mcp.json` — Project-level MCP server configuration
 
 ## Environment Setup
 
 ### Interactive Multi-Selection
 
-When you run `ai-devkit init`, you can select multiple environments simultaneously:
+When you run `ai-devkit init`, you can select multiple environments at once:
 
 ```bash
 ai-devkit init
 ```
 
 This presents an interactive checklist where you can:
-- Use spacebar to select/deselect environments
-- Press Enter to confirm your selections
-- Choose any combination of the 10 supported environments
+- **Spacebar** — Select or deselect an environment
+- **Enter** — Confirm your selections
+- Select any combination of the supported environments
 
 ### Configuration Storage
 
-Your selections are stored in `.ai-devkit.json`:
+Your selections are saved in `.ai-devkit.json`:
 
 ```json
 {
-  "version": "0.4.0",
+  "version": "0.69.1",
   "environments": ["cursor", "claude", "github"],
-  "initializedPhases": ["requirements", "design"],
-  "createdAt": "2025-10-31T...",
-  "updatedAt": "2025-10-31T..."
+  "phases": ["requirements", "design"],
+  "createdAt": "2026-10-10T...",
+  "updatedAt": "2026-10-10T..."
 }
 ```
 
-### Re-running Setup
+### Adding More Environments Later
 
-If you want to add more environments later:
+Want to add another environment after initial setup? Just run:
 
 ```bash
 ai-devkit init
 ```
 
 AI DevKit will:
-1. Detect existing environments
-2. Show confirmation prompts for overwriting
-3. Add new environments alongside existing ones
+1. Detect your existing environments
+2. Ask once before replacing the selected environment templates in interactive mode
+3. Ask separately before replacing each existing phase document
+
+In non-interactive mode (`--yes`), existing environment templates and phase documents are skipped unless you also pass `--overwrite`. Template-driven initialization overwrites the selected artifacts without prompting.
 
 ### Override Protection
 
-When re-running `ai-devkit init`, you'll be prompted before overwriting existing environment configurations:
+When an interactively selected environment is already set up, `ai-devkit init` shows a warning and asks whether to replace the selected environment templates:
 
 ```
 Warning: The following environments are already set up: cursor, claude
 
+The following environments are already set up and will be overwritten:
+  Cursor, Claude Code
+
 Do you want to continue?
 ```
 
-## Contributing New Environments
+Existing phase documents use a separate per-phase confirmation. This behavior belongs to `init`; the non-interactive `ai-devkit install` reconciliation flow does not show a general “existing install artifacts” overwrite prompt.
 
-AI DevKit welcomes contributions for new AI development environments. To add support for a new environment:
+## For Contributors
 
-1. **Create Environment Definition**: Add to `src/util/env.ts`
-2. **Add Templates**: Create `templates/env/{code}/` directory
-3. **Update Documentation**: Add to this guide
-4. **Test Integration**: Ensure proper initialization and configuration
+Want to add support for a new AI environment? We welcome contributions!
+
+1. **Create Environment Definition** — Add to `packages/cli/src/util/env.ts`
+2. **Add Templates** — Create `templates/env/{code}/` directory
+3. **Update Documentation** — Add to this guide
+4. **Test Integration** — Ensure proper initialization and configuration
+
+See our [Contributing Guide](https://github.com/Codeaholicguy/ai-devkit/blob/main/CONTRIBUTING.md) for details.
